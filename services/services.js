@@ -1,19 +1,19 @@
 const pool = require('../lib/connection');
 
-class EnrollmentServices{
+class Services{
 
     constructor(){
-        this.pool = pool;
-        this.pool.on('error', (err) => console.error(err))
     }
 
-    async get(){
-        const query = 'SELECT * FROM tasks';
-        const rta = await this.pool.query(query);  
-        return rta.rows;
+    async get(id){
+        const conn = await pool.getConnection();
+        //const query = 'SELECT * FROM stations_brands';
+        const query = 'SELECT s.name AS Nombre, sc.distance AS Distancia, p.value AS Precio, b.name AS Marca FROM stations s, stations_competitors sc, prices p, brands b, stations_brands sb';
+        const rta = await conn.query(query); 
+        return rta;
     }
 
 }
 
-module.exports = EnrollmentServices;
+module.exports = Services;
 
